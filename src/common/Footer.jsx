@@ -1,6 +1,10 @@
 import React from "react";
+import {useNavigate} from "react-router-dom"
 
 function Footer() {
+
+  let navigate = useNavigate();
+
   return (
     <>
       <footer className="m-3 p-2">
@@ -13,7 +17,7 @@ function Footer() {
               className="h-12 flex-1 border border-gray-200 text-center sm:text-left uppercase font-semibold px-4 text-sm"
               placeholder="Email address"
             />
-            <button className="w-full sm:w-auto h-12 px-6 flex justify-center items-center uppercase text-sm bg-gray-900 text-white flex-shrink-0">Subscribe</button>
+            <button className="w-full sm:w-auto h-12 px-6 flex justify-center items-center uppercase text-sm bg-gray-900 text-white flex-shrink-0 cursor-not-allowed">Subscribe</button>
           </form>
           <div className="w-full sm:w-auto flex items-center justify-center sm:justify-end px-6 mt-6 sm:mt-0">
             <a href="#" className="mx-2">
@@ -40,13 +44,13 @@ function Footer() {
         </div>
         <div className="container mx-auto px-6 flex flex-wrap uppercase text-sm font-bold text-gray-900 py-6">
           <div className="flex-1">
-            <a href="/products" className="block mt-2">
+            <a href="/" className="block mt-2">
               Catalog
             </a>
-            <a href="/about" className="block mt-2">
+            <a href="/" className="block mt-2">
               About
             </a>
-            <a href="/blog" className="block mt-2">
+            <a href="/" className="block mt-2">
               Blog
             </a>
           </div>
@@ -54,10 +58,10 @@ function Footer() {
             <a href="/login" className="block mt-2">
               Login
             </a>
-            <a href="/register" className="block mt-2">
+            <a href="/signup" className="block mt-2">
               Register
             </a>
-            <a href="/faq" className="block mt-2">
+            <a href="/" className="block mt-2">
               FAQ
             </a>
           </div>
