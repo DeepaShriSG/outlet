@@ -18,6 +18,7 @@ const ShopNow = lazy(()=>import("./client/Shopnow"))
 const ProductDisplay = lazy(()=>import("./client/ProductDisplay"))
 const Cart = lazy(()=>import("./components/Cart"))
 const ViewCart = lazy(()=>import("./client/ViewCart"))
+const Payment = lazy(()=>import("./client/Payment"))
 
 const Login = lazy(() => import("./client/Login"));
 const Signup = lazy(()=>import("./client/Signup"))
@@ -49,6 +50,7 @@ function App() {
               <Route path="/product/:id" element={<ProductDisplay/>}/>
               <Route path="/cart" element={<Cart />} />
               <Route path="/viewcart" element={<ViewCart/>} />
+              <Route path="/payment" element={<Payment/>}/>
 
             </Routes>
             <Footer />

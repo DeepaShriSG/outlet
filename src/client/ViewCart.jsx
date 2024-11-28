@@ -1,26 +1,22 @@
 import React, { useState, useCallback,useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateCart, removeCart } from "../redux/ProductSlice";
-import { selectBagMRP, selectTotal, shipping } from "../redux/ProductSlice";
+import { fetchProducts, addtoCart, updateCart,selectBagMRP, selectTotal, shipping } from "../redux/ProductSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AxiosService from "../common/ApiService";
+import ErrorPage from "../common/ErrorPage"
 
 function ViewCart() {
 
   const [currentStep, setCurrentStep] = useState(1);
   const cartItem = useSelector((state) => state.products.cart);
-  const productsData = useSelector((state) => state.products.items);
-  console.log(productsData)
+
+  const [loading, setLoading] = useState(true);
   
-  const cartData = productsData.filter((item)=>item.ProductCode === cartItem.ProductCode)
-  console.log(cartData);
 
   const nextStep = async () => {
     if (currentStep === 1) {
       try {
-        let res = await AxiosService.post("/user/cart", cartData);
-        console.log(res);
         toast.success("Cart details saved successfully!");
       } catch (error) {
         console.error("Error saving cart details:", error);
@@ -105,9 +101,11 @@ function ViewCart() {
 function CartStep() {
 
   const cartItem = useSelector((state) => state.products.cart);
-
   const dispatch = useDispatch();
+
   const navigate = useNavigate();
+
+  const token = sessionStorage.getItem("token");
 
   const handleQuantityChange = useCallback(
     (item, newQuantity) => {
@@ -129,7 +127,10 @@ function CartStep() {
     <div className="p-3">
       <h2 className="text-xl font-semibold mb-4">Your Cart</h2>
       <div className="space-y-4">
-        <div className="flex-1 overflow-y-auto p-4">
+       {
+        (token !== null) ? 
+        <>
+         <div className="flex-1 overflow-y-auto p-4">
           {cartItem && cartItem.length > 0 ? (
             <>
               {cartItem.map((e, index) => {
@@ -177,6 +178,10 @@ function CartStep() {
             </div>
           )}
         </div>
+        </>
+        :
+        <p className="text-center">Please <a href="/login" className="font-semibold">login</a> to Proceed</p>
+       }
       </div>
     </div>
   );
@@ -236,17 +241,9 @@ function ReviewStep() {
 
     setLoading(true);
     try {
-      let payload ={
-        ...userData,
-        cart:cartItem.product
-      }
-      console.log(payload)
-      const res = await AxiosService.post("/user/checkout", payload);
-      console.log(res)
-      if (res.status === 201) {
         toast.success("Proceeding to Payment");
         navigate("/payment");
-      }
+      
     } catch (error) {
       toast.error("An error occurred. Please try again.");
       console.error(error);
@@ -331,7 +328,7 @@ function CheckoutStep() {
     <div>
       <h2 className="text-xl font-semibold mb-4">Order Confirmation</h2>
       <p>Review your order before proceeding with the payment.</p>
-      <p className="text-sm text-gray-500 mt-2">Secure Checkout - SSL Encrypted</p>
+      <p className="text-sm text-gray-500 mt-2">Secure Checkout</p>
     </div>
   );
 }

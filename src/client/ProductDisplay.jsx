@@ -39,21 +39,24 @@ const ProductDisplay = () => {
 
   // Find product by ID
   const product = products.find((product) => product._id === id);
+ 
 
   // Product not found
   if (!product) {
     return <ErrorPage message="Product not found" />;
   }
 
+   
   // Add to Cart Handler
-  const addToCartHandler = (product) => {
+  const addToCartHandler = (product,quantity) => {
     const payload = {
-      product: product.product,
-      quantity,
-    };
+      product,
+      quantity
+    }
+    console.log(payload)
     if (quantity > 0) {
       dispatch(addtoCart(payload));
-      toast.success(`${quantity} ${product.product.ProductTitle} added to cart!`);
+      toast.success(`${quantity} ${product.ProductTitle} added to cart!`);
     } else {
       toast.error("Please select a valid quantity!");
     }
@@ -123,7 +126,7 @@ const ProductDisplay = () => {
             className="w-16 p-1 border rounded-md text-sm"
           />
           <button
-            onClick={() => addToCartHandler({product,quantity})}
+            onClick={() => addToCartHandler(product,quantity)}
             className="bg-black text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-800 text-sm"
           >
             Add to Cart

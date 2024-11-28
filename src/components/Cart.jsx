@@ -9,7 +9,7 @@ import AxiosService from "../common/ApiService";
 
 function Cart({ isOpen, toggleSidebar }) {
   const cartItem = useSelector((state) => state.products.cart);
-
+  console.log(cartItem)
   const bagMRP = useSelector(selectBagMRP);
   const shippingCost = useSelector(shipping);
   const total = useSelector(selectTotal);
@@ -39,11 +39,7 @@ function Cart({ isOpen, toggleSidebar }) {
   };
 
   const handleTrash = (item) => {
-    console.log(item)
-    setTimeout(() => {
-      dispatch(removeCart(item._id));
-    }, 100); 
-    dispatch(toggleSidebar())
+    dispatch(removeCart(item._id)); 
   };
 
   

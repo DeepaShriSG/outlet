@@ -7,8 +7,6 @@ export const fetchProducts = createAsyncThunk("products/fetchProducts", async ()
   return response.data.items;
 });
 
-
-
 // Product slice
 export const ProductSlice = createSlice({
   name: "products",
@@ -21,20 +19,20 @@ export const ProductSlice = createSlice({
   reducers: {
     // Add to cart reducer
     addtoCart: (state, action) => {
-      const product = action.payload;
-      console.log(product)
+      const payload = action.payload;
+      console.log(payload)
       const existingProductIndex = state.cart.findIndex(
-        (item) => item._id === product._id
+        (item) => item.product._id === payload.product._id
       );
       
       if (existingProductIndex !== -1) {
         state.cart = state.cart.map((item, index) =>
           index === existingProductIndex
-            ? { ...item, quantity: item.quantity + (product.quantity || 1) }
+            ? { ...item, quantity: item.quantity + (payload.quantity || 1) }
             : item
         );
       } else {
-        state.cart = [...state.cart, { ...product, quantity: product.quantity || 1 }];
+        state.cart = [...state.cart, { ...payload, quantity: payload.quantity || 1 }];
       }
 
       // Update session storage
@@ -44,7 +42,6 @@ export const ProductSlice = createSlice({
     // Update quantity in cart
     updateCart: (state, action) => {
       const { productId, quantity } = action.payload;
-      console.log(productId,quantity)
       state.cart = state.cart.map((item) =>
         item.product._id === productId ? { ...item, quantity } : item
       );
@@ -55,7 +52,9 @@ export const ProductSlice = createSlice({
     // Remove product from cart
     removeCart: (state, action) => {
       const productId = action.payload;
+  
       state.cart = state.cart.filter((item) => item.product._id !== productId);
+      console.log(state.cart)
       sessionStorage.setItem("cart", JSON.stringify(state.cart));
     },
 
